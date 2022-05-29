@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:fragment="Layout(content)">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="" th:href="@{/css/style.css}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+	integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Hello, world!</title>
+</head>
+<body>
+
+
+
+	<!-- Navbar -->
+
+	<nav class="fixed-top navbar navbar-expand-lg navbar-dark bg-primary">
+
+		<a class="navbar-brand" href="#">Smart Contact Manager</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/home}" href="#">Home <span class="sr-only">(current)</span></a>
+				</li>
+
+				<li class="nav-item"><a class="nav-link" href="#"><i
+						class="fa-solid fa-user"></i><span th:text="${user.name}"></span></a></li>
+
+				<li class="nav-item"><a class="nav-link" th:href="@{/logout}"
+					href="#">Logout</a></li>
+			</ul>
+
+		</div>
+	</nav>
+
+	<!--  sidebar -->
+	<div class="sidebar mt-2">
+		<span onclick="toggleSidebar()" class="crossbar">&times;</span> <a
+			href="#" th:href="@{/user/index}" class="item"> <i
+			class="fa-solid fa-house"></i> Home
+		</a> <a href="#" th:href="@{/user/show-contact/0}" class="item"> <i
+			class="fa-solid fa-eye"></i> View
+		</a> <a href="#" th:href="@{/user/add-contact}" class="item"> <i
+			class="fa-solid fa-plus"></i> Add contact
+		</a> <a href="#" th:href="@{/user/profile}" class="item"> <i class="fa-solid fa-user"></i> Your
+			profile
+		</a> <a href="#" class="item"> <i class="fa-solid fa-gear"></i>
+			Setting
+		</a> <a href="#" th:href="@{/logout}" class="item"> <i
+			class="fa-solid fa-right-from-bracket"></i> Logout
+		</a>
+		<div class="divider"></div>
+	</div>
+
+	<div class="content mt-5">
+		<i onclick="toggleSidebar()" class="fas fa-bars m-3"></i>
+
+		<div th:if="${session.message}" class="container text-center">
+			<div th:classappend="${'alert-'+session.message.type}" class="alert"
+				role="alert">
+				<span th:text="${session.message.contact}"></span>
+			</div>
+			<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+		</div>
+		<div th:replace="${content}"></div>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	<script class="src" th:src="@{/js/script.js}"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+	
+	function deletecontact(cid)
+	{
+	Swal.fire({
+  title: 'Are you sure?',
+  text: "you want to delete this contact",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+   Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+      
+    )
+    
+window.location="/user/delete/"+cid
+  }
+})
+	}
+	
+	</script>
+
+</body>
+</html>
